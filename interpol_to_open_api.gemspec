@@ -5,7 +5,7 @@ require 'interpol_to_open_api/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "interpol_to_open_api"
-  spec.version       = InterpolToOpenApi::VERSION
+  spec.version       = InterpolToOpenAPI::VERSION
   spec.authors       = ["Joe-noh"]
   spec.email         = ["honzawa.j@pepabo.com"]
 
