@@ -5,7 +5,7 @@ module InterpolToOpenAPI
     end
 
     def run
-      converter = InterpolToOpenAPI.new
+      converter = InterpolToOpenAPI::Converter.new
       p converter
     end
   end
