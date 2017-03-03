@@ -2,5 +2,5 @@
 
 require 'interpol_to_open_api'
 
-cli = InterpolToOpenAPI::CLI.new
+cli = InterpolToOpenAPI::CLI.new(ARGV)
 cli.run
