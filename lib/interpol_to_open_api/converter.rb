@@ -1,11 +1,5 @@
 require 'yaml'
 
-class String
-  def camelize
-    self.gsub(/_([a-z])/) { $1.upcase }
-  end
-end
-
 module InterpolToOpenAPI
   class Converter
     def convert(path)
