@@ -2,10 +2,7 @@ require 'yaml'
 
 class String
   def camelize
-    self.split("_").map {|w|
-      w[0] = w[0].upcase
-      w
-    }.join
+    self.gsub(/_([a-z])/) { $1.upcase }
   end
 end
 
@@ -30,8 +27,10 @@ module InterpolToOpenAPI
         })
       }
 
+      route = camelize_path_parameters(interpol['route'])
+
       {
-        interpol['route'] => {
+        route => {
           interpol['method'].downcase => {
             'summary' => '',
             'description' => req.first['schema']['description'] || '',
@@ -81,6 +80,12 @@ module InterpolToOpenAPI
           'description' => '',
           'schema' => schema
         }
+      end
+    end
+
+    def camelize_path_parameters(path)
+      path.gsub(/:([\w]+)/) do |_matched|
+        "{" + $1.camelize + "}"
       end
     end
   end
