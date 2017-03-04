@@ -3,19 +3,16 @@ require 'optparse'
 module InterpolToOpenAPI
   class CLI
     def initialize(argv)
-      @glob = nil
-      @output = nil
+      @src = nil
 
       define_cli_options(argv)
     end
 
     def run
-      converter = InterpolToOpenAPI::Converter.new(
-        src: @glob,
-        dest: @output
-      )
+      raise 'Give input yaml path with -i option.' if @src.nil?
 
-      converter.convert
+      converter = InterpolToOpenAPI::Converter.new
+      converter.convert(@src)
     end
 
     private
@@ -29,11 +26,7 @@ module InterpolToOpenAPI
       end
 
       @opt.on('-i path', '--input', 'path to input endpoint definition yaml') do |path|
-        @glob = path
-      end
-
-      @opt.on('-o path', '--output', 'path to output open api yaml') do |path|
-        @output = path
+        @src = path
       end
 
       @opt.parse!(argv)
