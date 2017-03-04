@@ -1,14 +1,5 @@
 require 'yaml'
 
-class String
-  def camelize
-    self.split("_").map {|w|
-      w[0] = w[0].upcase
-      w
-    }.join
-  end
-end
-
 module InterpolToOpenAPI
   class Converter
     def convert(path)
@@ -16,7 +7,46 @@ module InterpolToOpenAPI
 
       req, res = interpol['definitions'].partition {|definition| definition['message_type'] == 'request' }
 
-      parameters = (req.first['path_params']['properties'] || []).map {|(name, schema)|
+      {
+        camelize_path_parameters(interpol['route']) => {
+          interpol['method'].downcase => {
+            'summary' => '',
+            'description' => req.first['schema']['description'] || '',
+            'parameters' => build_parameters(req.first),
+            'responses' => build_responses(res.first)
+          }
+        }
+      }
+    end
+
+    private
+
+    def build_parameters(request)
+      [
+        parameters_in_path(request['path_params']['properties']),
+        parameters_in_query(request['query_params']['properties']),
+        parameters_in_body(request['schema'])
+      ].flatten
+    end
+
+    def build_responses(response)
+      status_code = response['status_codes'].first
+      schema = response['schema'].merge({
+        'example' => response['examples'].first
+      })
+
+      {
+        status_code => {
+          'description' => '',
+          'schema' => schema
+        }
+      }
+    end
+
+    def parameters_in_path(properties)
+      return [] unless properties.is_a? Hash
+
+      properties.map do |name, schema|
         {
           'in' => 'path',
           'name' => name.camelize,
@@ -24,39 +54,39 @@ module InterpolToOpenAPI
           'required' => true,
           'type' => schema['type']
         }
-      }
-      parameters << (req.first['query_params'] || []).map {|name, schema|
+      end
+    end
+
+    def parameters_in_query(properties)
+      return [] unless properties.is_a? Hash
+
+      properties.map do |name, schema|
         {
           'in' => 'query',
-          'name' => name.camelize,
+          'name' => name,
           'description' => '',
           'type' => schema['type']
         }
-      }
-      parameters << (req.first['schema']['properties'] || []).map {|name, schema|
+      end
+    end
+
+    def parameters_in_body(schema)
+      return [] unless schema.is_a? Hash
+
+      schema['properties'].map do |name, schema|
         {
           'in' => 'body',
-          'name' => name.camelize,
+          'name' => name,
           'description' => '',
           'schema' => schema
         }
-      }
+      end
+    end
 
-      status_code = res.first['status_codes'].first
-      responses = {}
-      responses[status_code] = {
-        'description' => '',
-        'schema' => res.first['schema']
-      }
-
-      {
-        interpol['route'] => {
-          interpol['method'].downcase => {
-            'responses' => responses,
-            'parameters' => parameters
-          }
-        }
-      }
+    def camelize_path_parameters(path)
+      path.gsub(/:([\w]+)/) do |_matched|
+        "{" + $1.camelize + "}"
+      end
     end
   end
 end

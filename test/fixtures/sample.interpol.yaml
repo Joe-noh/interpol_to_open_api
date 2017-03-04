@@ -19,9 +19,12 @@ definitions:
       description: 'Add a pet'
       type: object
       properties:
-        name:
-          description: 'Name of the pet'
-          type: string
+        pet:
+          type: object
+          properties:
+            name:
+              description: 'Name of the pet'
+              type: string
     examples:
       - name: 'Max'
   - message_type: response
@@ -38,5 +41,6 @@ definitions:
             name:
               type: string
     examples:
-      - id: 30
-        name: 'Max'
+      - pet:
+          id: 30
+          name: 'Max'
