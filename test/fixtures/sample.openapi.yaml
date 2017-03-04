@@ -33,7 +33,9 @@
               properties:
                 id:
                   type: integer
-                  example: 30
                 name:
                   type: string
-                  example: 'Max'
+          example:
+            pet:
+              id: 30
+              name: 'Max'
