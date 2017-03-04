@@ -1,0 +1,42 @@
+---
+name: create_pet
+route: /shops/:shop_id/pets.json
+method: POST
+definitions:
+  - message_type: request
+    versions: ["1.0"]
+    path_params:
+      type: object
+      properties:
+        shop_id:
+          type: integer
+    query_params:
+      type: object
+      properties:
+        sandbox:
+          type: boolean
+    schema:
+      description: 'Add a pet'
+      type: object
+      properties:
+        name:
+          description: 'Name of the pet'
+          type: string
+    examples:
+      - name: 'Max'
+  - message_type: response
+    versions: ["1.0"]
+    status_codes: ["201"]
+    schema:
+      type: object
+      properties:
+        pet:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+    examples:
+      - id: 30
+        name: 'Max'

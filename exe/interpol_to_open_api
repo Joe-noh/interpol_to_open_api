@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'interpol_to_open_api'
+
+cli = InterpolToOpenAPI::CLI.new(ARGV)
+cli.run
