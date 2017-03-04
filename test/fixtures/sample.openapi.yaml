@@ -1,0 +1,39 @@
+---
+/shops/{shopId}/pets.json:
+  post:
+    summary: ''
+    description: 'Add a pet'
+    parameters:
+      - in: path
+        name: shopId
+        description: ''
+        type: integer
+        required: true
+      - in: query
+        name: sandbox
+        description: ''
+        type: boolean
+      - in: body
+        name: pet
+        description: ''
+        schema:
+          type: object
+          properties:
+            name:
+              description: 'Name of the pet'
+              type: string
+    responses:
+      '201':
+        description: ''
+        schema:
+          type: object
+          properties:
+            pet:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 30
+                name:
+                  type: string
+                  example: 'Max'
