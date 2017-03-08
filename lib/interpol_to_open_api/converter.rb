@@ -71,7 +71,7 @@ module InterpolToOpenAPI
     end
 
     def parameters_in_body(schema)
-      return [] unless schema.is_a? Hash
+      return [] unless schema['properties'].is_a? Hash
 
       schema['properties'].map do |name, schema|
         {

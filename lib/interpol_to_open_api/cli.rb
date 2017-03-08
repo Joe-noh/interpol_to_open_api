@@ -1,4 +1,5 @@
 require 'optparse'
+require 'yaml'
 
 module InterpolToOpenAPI
   class CLI
@@ -12,7 +13,7 @@ module InterpolToOpenAPI
       raise 'Give input yaml path with -i option.' if @src.nil?
 
       converter = InterpolToOpenAPI::Converter.new
-      converter.convert(@src)
+      puts converter.convert(@src).to_yaml
     end
 
     private
