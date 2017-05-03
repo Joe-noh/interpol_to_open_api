@@ -17,6 +17,7 @@ module InterpolToOpenAPI
           interpol['method'].downcase => {
             'summary' => '',
             'description' => req.first['schema']['description'] || '',
+            'operationId' => interpol['name'].camelize,
             'parameters' => build_parameters(req.first),
             'responses' => build_responses(res.first)
           }

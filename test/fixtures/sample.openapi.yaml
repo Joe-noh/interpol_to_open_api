@@ -3,6 +3,7 @@
   post:
     summary: ''
     description: 'Add a pet'
+    operationId: createPet
     parameters:
       - in: path
         name: shopId
