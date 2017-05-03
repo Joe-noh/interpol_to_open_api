@@ -1,8 +1,12 @@
 module InterpolToOpenAPI
-  class Converter
-    class SchemaConverter
-      def convert(schema)
-        converted = schema.map do |key, val|
+  module Interpol
+    class Schema
+      def initialize(schema)
+        @schema = schema
+      end
+
+      def to_openapi
+        converted = @schema.map do |key, val|
           case key
           when "properties"
             [key, x_nullable(val)]
@@ -22,7 +26,7 @@ module InterpolToOpenAPI
             if val["type"].is_a?(Array)
               [key, extract_nullable(val)]
             elsif val.has_key?("properties")
-              [key, convert(val)]
+              [key, Schema.new(val).to_openapi]
             else
               [key, val]
             end
