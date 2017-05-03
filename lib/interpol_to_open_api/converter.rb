@@ -1,7 +1,12 @@
 require 'yaml'
+require_relative 'converter/schema_converter'
 
 module InterpolToOpenAPI
   class Converter
+    def initialize
+      @schema_converter = SchemaConverter.new
+    end
+
     def convert(path)
       interpol = YAML.load_file(path)
 
@@ -38,7 +43,7 @@ module InterpolToOpenAPI
       {
         status_code => {
           'description' => '',
-          'schema' => schema
+          'schema' => @schema_converter.convert(schema)
         }
       }
     end
@@ -78,7 +83,7 @@ module InterpolToOpenAPI
           'in' => 'body',
           'name' => name,
           'description' => '',
-          'schema' => schema
+          'schema' => @schema_converter.convert(schema)
         }
       end
     end

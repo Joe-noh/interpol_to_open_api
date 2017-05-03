@@ -40,7 +40,10 @@ definitions:
               type: integer
             name:
               type: string
+            age:
+              type: [integer, 'null']
     examples:
       - pet:
           id: 30
           name: 'Max'
+          age: null

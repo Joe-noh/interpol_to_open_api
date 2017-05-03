@@ -35,7 +35,11 @@
                   type: integer
                 name:
                   type: string
+                age:
+                  type: integer
+                  x-nullable: true
           example:
             pet:
               id: 30
               name: 'Max'
+              age: null
