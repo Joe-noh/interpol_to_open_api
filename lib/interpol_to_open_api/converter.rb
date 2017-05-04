@@ -14,6 +14,7 @@ module InterpolToOpenAPI
             'summary' => '',
             'description' => req.first['schema']['description'] || '',
             'operationId' => interpol['name'].camelize,
+            'tags' => [],
             'parameters' => build_parameters(req.first),
             'responses' => build_responses(res.first)
           }

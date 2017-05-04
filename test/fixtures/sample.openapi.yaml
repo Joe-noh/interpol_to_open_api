@@ -4,6 +4,7 @@
     summary: ''
     description: 'Add a pet'
     operationId: createPet
+    tags: []
     parameters:
       - in: path
         name: shopId
