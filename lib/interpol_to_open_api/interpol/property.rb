@@ -4,7 +4,7 @@ module InterpolToOpenAPI
       def self.array_to_openapi(properties)
         properties.map {|name, attrs|
           Property.new(name, attrs).to_openapi
-        }.inject({}) {|acc, hash|
+        }.inject {|acc, hash|
           acc.merge(hash)
         }
       end
