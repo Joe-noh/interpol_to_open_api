@@ -25,6 +25,14 @@ definitions:
             name:
               description: 'Name of the pet'
               type: string
+            leash:
+              description: 'Dog leash'
+              type: [object, 'null']
+              properties:
+                color:
+                  type: string
+                length:
+                  type: integer
     examples:
       - name: 'Max'
   - message_type: response

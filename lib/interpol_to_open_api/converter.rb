@@ -1,12 +1,8 @@
 require 'yaml'
-require_relative 'converter/schema_converter'
+require_relative 'interpol/schema'
 
 module InterpolToOpenAPI
   class Converter
-    def initialize
-      @schema_converter = SchemaConverter.new
-    end
-
     def convert(path)
       interpol = YAML.load_file(path)
 
@@ -37,14 +33,14 @@ module InterpolToOpenAPI
 
     def build_responses(response)
       status_code = response['status_codes'].first
-      schema = response['schema'].merge({
+      schema = Interpol::Schema.new response['schema'].merge({
         'example' => response['examples'].first
       })
 
       {
         status_code => {
           'description' => '',
-          'schema' => @schema_converter.convert(schema)
+          'schema' => schema.to_openapi
         }
       }
     end
@@ -84,7 +80,7 @@ module InterpolToOpenAPI
           'in' => 'body',
           'name' => name,
           'description' => '',
-          'schema' => @schema_converter.convert(schema)
+          'schema' => Interpol::Schema.new(schema).to_openapi
         }
       end
     end

@@ -23,6 +23,15 @@
             name:
               description: 'Name of the pet'
               type: string
+            leash:
+              description: 'Dog leash'
+              type: object
+              x-nullable: true
+              properties:
+                color:
+                  type: string
+                length:
+                  type: integer
     responses:
       '201':
         description: ''
